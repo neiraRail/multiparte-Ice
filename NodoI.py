@@ -7,102 +7,103 @@ n = 3
 class NodoI(Multiparte.Nodo, threading.Thread):
     def __init__(self, id, key):
         self.id = id
+        self.key = key
 
         threading.Thread.__init__(self)
         self.__threadCondition = threading.Condition()
-        self.key = key
-        self.parts = self.separateKey()
-        self.otherParts = []
-        self.partialSums = []
+        
+        self.partes = self.separarKey()
+        self.otrasPartes = []
+        self.sumasParciales = []
 
-        self.partsSended = 0
+        self.nroPartesEnviadas = 0
 
     def getMyPart(self, mensaje, current=None):
-        if self.partsSended == 3:
+        if self.nroPartesEnviadas == 3:
             return 0
         
-        yourPart = self.parts[self.partsSended]
-        self.partsSended += 1
+        tuParte = self.partes[self.nroPartesEnviadas]
+        self.nroPartesEnviadas += 1
 
-        return yourPart
+        return tuParte
     
     def getPartialSum(self, current=None):
-        if len(self.otherParts) < n:
+        if len(self.otrasPartes) < n:
             raise Multiparte.NotReadyError()
-        return sum(self.otherParts)
+        return sum(self.otrasPartes)
     
     def getFinalSum(self, current=None):
-        if len(self.partialSums) < n:
+        if len(self.sumasParciales) < n:
             raise Multiparte.NotReadyError()
-        return sum(self.partialSums)
+        return sum(self.sumasParciales)
 
-    def separateKey(self):
-        parts = []
+    def separarKey(self):
+        partes = []
         for i in range(n-1):
-            parts.append(random.randint(-10,10))
-        parts.append(self.key - sum(parts))
-        return parts
+            partes.append(random.randint(-10,10))
+        partes.append(self.key - sum(partes))
+        return partes
     
     ## Hilo de ejecución para las operaciones de cliente.
     def run(self):
         with self.__threadCondition:
             print("Mi número secreto es {}".format(self.key))
-            print("Las partes que voy a compartir son {}".format(self.parts))
+            print("Las partes que voy a compartir son {}".format(self.partes))
             proxies = []
             for i in range(n):
                 if i != int(self.id): 
                     print("Tengo que conectarme al nodo {}".format(i))
                     base = ic.stringToProxy("Nodo_{}:default -p 1000{}".format(i,i))
-                    connected = False
-                    while not connected:
+                    conectado = False
+                    while not conectado:
                         try:
                             print("Intento")
                             proxy = Multiparte.NodoPrx.checkedCast(base)
                             if not proxy:
                                 raise RuntimeError("Invalid proxy")
                             proxies.append(proxy)
-                            connected = True
+                            conectado = True
                             print("Conectado al nodo {} :D".format(i))
                         except:
                             self.__threadCondition.wait(3)            
 
             # Pide todas las partes incluyendo la propia.
-            self.otherParts.append(self.getMyPart(""))
+            self.otrasPartes.append(self.getMyPart(""))
             for i, proxy in enumerate(proxies):
-                partRecieved = False
-                while not partRecieved:
+                parteRecibida = False
+                while not parteRecibida:
                     try:
                         print("Necesito la parte de {}".format(i), end=" ")
                         parte = proxy.getMyPart("")
-                        self.otherParts.append(parte)
+                        self.otrasPartes.append(parte)
                         print("que es {}".format(parte))
                     except Multiparte.NotReadyError:
                         self.__threadCondition.wait(1)
                         print("")
                     else:
-                        partRecieved = True
-            print("Las partes que he recolectado son: {}".format(self.otherParts), end=" ")
-            print("Y suman {}".format(sum(self.otherParts)))
+                        parteRecibida = True
+            print("Las partes que he recolectado son: {}".format(self.otrasPartes), end=" ")
+            print("Y suman {}".format(sum(self.otrasPartes)))
 
             # Suma las partes de otros y genera su suma parcial
-            self.partialSums.append(sum(self.otherParts))
+            self.sumasParciales.append(sum(self.otrasPartes))
 
             # Solcita las sumas parciales de los otros
             for i, proxy in enumerate(proxies):
-                sumRecieved = False
-                while not sumRecieved:
+                sumaRecibida = False
+                while not sumaRecibida:
                     try:
                         print("Necesito la suma parcial de {}".format(i), end=" ")
                         suma = proxy.getPartialSum()
-                        self.partialSums.append(suma)
+                        self.sumasParciales.append(suma)
                         print("que es {}".format(suma))
                     except:
                         self.__threadCondition.wait(1)
                         print("")
                     else:
-                        sumRecieved = True
-            print("Las sumas que he recolectado son: {}".format(self.partialSums))
-            print("La suma final es: {}".format(sum(self.partialSums)))
+                        sumaRecibida = True
+            print("Las sumas que he recolectado son: {}".format(self.sumasParciales))
+            print("La suma final es: {}".format(sum(self.sumasParciales)))
         # ic.waitForShutdown()
 
 # CODIGO DEL SERVER ---------------------------------------------------------------------------------------------
