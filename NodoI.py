@@ -43,6 +43,7 @@ class NodoI(Multiparte.Nodo, threading.Thread):
         parts.append(self.key - sum(parts))
         return parts
     
+    ## Hilo de ejecución para las operaciones de cliente.
     def run(self):
         with self.__threadCondition:
             print("Mi número secreto es {}".format(self.key))
@@ -80,7 +81,7 @@ class NodoI(Multiparte.Nodo, threading.Thread):
                         print("")
                     else:
                         partRecieved = True
-            print("Las partes que he recolectado son: {}".format(self.otherParts))
+            print("Las partes que he recolectado son: {}".format(self.otherParts), end=" ")
             print("Y suman {}".format(sum(self.otherParts)))
 
             # Suma las partes de otros y genera su suma parcial
@@ -91,11 +92,13 @@ class NodoI(Multiparte.Nodo, threading.Thread):
                 sumRecieved = False
                 while not sumRecieved:
                     try:
-                        print("Necesito la suma parcial de {}".format(i))
+                        print("Necesito la suma parcial de {}".format(i), end=" ")
                         suma = proxy.getPartialSum()
                         self.partialSums.append(suma)
+                        print("que es {}".format(suma))
                     except:
                         self.__threadCondition.wait(1)
+                        print("")
                     else:
                         sumRecieved = True
             print("Las sumas que he recolectado son: {}".format(self.partialSums))
