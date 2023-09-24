@@ -24,11 +24,12 @@ class NodoI(Multiparte.Nodo, threading.Thread):
         self.__threadCondition = threading.Condition()
         
     # Metodos trilium
-    def generarVector(self, id, seed=0):
-        # TODO incorporar el uso de la seed
+    def generarVector(self, id, seed=42):
+        random.seed(seed)
         largo = [93,84,111][id]
 
-        return [i % 2 for i in range(largo)]
+        # return [i % 2 for i in range(largo)]
+        return [random.randint(0, 1) for _ in range(largo)]
     
     def primerXor(self):
         return (self.vector[-3] & self.vector[-2]) ^ self.vector[-1] ^ self.vector[self.intermedio1]
@@ -113,7 +114,7 @@ class NodoI(Multiparte.Nodo, threading.Thread):
                             self.otrasPartes.append(parte)
                             logging.debug("que es {}".format(parte))
                         except:
-                            self.__threadCondition.wait(1)
+                            self.__threadCondition.wait(0.1)
                             logging.debug("")
                         else:
                             parteRecibida = True
@@ -138,7 +139,7 @@ class NodoI(Multiparte.Nodo, threading.Thread):
                             self.sumasParciales.append(suma)
                             logging.debug("que es {}".format(suma))
                         except:
-                            self.__threadCondition.wait(1)
+                            self.__threadCondition.wait(0.1)
                             logging.debug("")
                         else:
                             sumaRecibida = True
@@ -158,7 +159,7 @@ class NodoI(Multiparte.Nodo, threading.Thread):
                             sumasTotales.append(total)
                             logging.debug("que es {}".format(total))
                         except:
-                            self.__threadCondition.wait(1)
+                            self.__threadCondition.wait(0.1)
                             logging.debug("")
                         else:
                             sumaTotalRecibida = True
