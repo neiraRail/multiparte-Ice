@@ -1,41 +1,61 @@
 from NodoI import NodoI
 import logging
-import sys, traceback, Ice
+import sys, Ice, time, traceback
+import threading
 
 if "--debug" in sys.argv:
     logging.basicConfig(level=logging.DEBUG)
 else:
     logging.basicConfig(level=logging.INFO)
 
+class NodoMP():
+    def __init__(self, id):
+        self.id = id
+        self.server_listo = False
+        self.object = None
+        self.ic = None
 
-id = int(sys.argv[1])
-logging.debug("id es: {}".format(id))
+        logging.debug("id es: {}".format(id))
+        self.server_thread = threading.Thread(target=self._start_server)
+        self.server_thread.daemon = True # Para que finalize cuando el hilo principal muera
+        self.server_thread.start()
 
-n = 3
-status = 0
-ic = None
-try:
-    ic = Ice.initialize()
+        while not self.server_listo:
+            time.sleep(1)
 
-    adapter = ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 1000{}".format(id))
-    object = NodoI(id)
-    adapter.add(object, ic.stringToIdentity("Nodo_{}".format(id)))
-    adapter.activate()
 
-    object.daemon = True
-    object.start()
-    ic.waitForShutdown()
+    def _start_server(self):
+        try:
+            self.ic = Ice.initialize()
+            adapter = self.ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 1000{}".format(self.id))
+            self.object = NodoI(self.id)
+            adapter.add(self.object, self.ic.stringToIdentity("Nodo_{}".format(self.id)))
+            adapter.activate()
 
-except:
-    traceback.logging.debug_exc()
-    status = 1
+            self.object.conectarme()
 
-if ic:
-    # Clean up
-    try:
-        ic.destroy()
-    except:
-        traceback.logging.debug_exc()
-        status = 1
+            self.server_listo = True
 
-sys.exit(status)
+            self.ic.waitForShutdown()
+            adapter.destroy()
+        except:
+            print("Antesdel keyboard interrupt")
+            traceback.print_exc()
+        
+        if self.ic:
+            try:
+                self.ic.destroy()
+            except:
+                traceback.print_exc()
+                pass
+
+    
+
+    def sumar(self, secreto):
+        suma = self.object.sumar(secreto)
+        print("SUMASUMASUMA: {}".format(suma))
+
+
+
+nodo = NodoMP(sys.argv[1])
+nodo.sumar(2)
