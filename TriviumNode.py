@@ -4,7 +4,7 @@ import logging, sys, random
 class TriviumNode():
     def __init__(self, id):
         self.id = id
-        self.multiparte = NodoMP(id)
+        self.multiparte = NodoMP(id, 3)
 
         self.secreto = None
 

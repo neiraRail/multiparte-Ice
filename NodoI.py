@@ -1,10 +1,11 @@
 import Multiparte
 import random
 
-n=3
+
 class NodoI(Multiparte.Nodo):
-    def __init__(self, id):
+    def __init__(self, id, n=3):
         # Variables para la suma multiparte
+        self.n = n
         self.id = id
         self.key = None
         self.partes = []
@@ -16,10 +17,10 @@ class NodoI(Multiparte.Nodo):
     # Metodos suma multiparte
     def getMyPart(self, mensaje, current=None):
         #TODO: quitar self.nroPartesEnviadas y usar otra estrategia
-        if len(self.partes) < n:
+        if len(self.partes) < self.n:
             raise Multiparte.NotReadyError()
 
-        if self.nroPartesEnviadas == 3:
+        if self.nroPartesEnviadas == self.n:
             return Multiparte.AllPartsAlreadySended()
         
         tuParte = self.partes[self.nroPartesEnviadas]
@@ -39,7 +40,7 @@ class NodoI(Multiparte.Nodo):
 
     def separarKey(self):
         partes = []
-        for i in range(n-1):
+        for _ in range(self.n-1):
             partes.append(random.randint(-10,10))
         partes.append(self.key - sum(partes))
         self.nroPartesEnviadas = 0

@@ -6,8 +6,9 @@ import Multiparte
 
 
 class NodoMP():
-    def __init__(self, id):
+    def __init__(self, id, n=3):
         self.id = id
+        self.n = n
         self.server_listo = False
         self.object = None
         self.ic = None
@@ -49,7 +50,7 @@ class NodoMP():
 
     
     def conectarme(self):
-        for i in range(3):
+        for i in range(self.n):
             if i != int(self.id): 
                 logging.info("Tengo que conectarme al nodo {}".format(i))
                 base = self.ic.stringToProxy("Nodo_{}:default -p 1000{}".format(i,i))
@@ -89,7 +90,7 @@ class NodoMP():
                     logging.debug("que es {}".format(parte))
                 except Multiparte.NotReadyError as e:
                     logging.debug(e)
-                    time.sleep(0.1)
+                    #time.sleep(0.1)
                 except Ice.ConnectionRefusedException as e:
                     logging.debug(e)
                     sys.exit()
@@ -117,7 +118,7 @@ class NodoMP():
                     logging.debug("que es {}".format(suma))
                 except Multiparte.NotReadyError as e:
                     logging.debug(e)
-                    time.sleep(0.1)
+                    #time.sleep(0.1)
                 except Ice.ConnectionRefusedException as e:
                     logging.debug(e)
                     sys.exit()
@@ -141,7 +142,7 @@ class NodoMP():
                     logging.debug("que es {}".format(total))
                 except Multiparte.NotReadyError as e:
                     logging.debug(e)
-                    time.sleep(0.1)
+                    #time.sleep(0.1)
                 except Ice.ConnectionRefusedException as e:
                     logging.debug(e)
                     sys.exit()
