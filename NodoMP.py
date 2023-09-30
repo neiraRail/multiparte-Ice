@@ -4,6 +4,10 @@ import sys, Ice, time, traceback
 import threading
 import Multiparte
 
+if "--debug" in sys.argv:
+    logging.basicConfig(level=logging.DEBUG)
+else:
+    logging.basicConfig(level=logging.INFO)
 
 class NodoMP():
     def __init__(self, id, n=3):
@@ -153,4 +157,6 @@ class NodoMP():
         assert all(x == sumasTotales[0] for x in sumasTotales) # Si una de las sumas totales no coincide se detiene la ejecución
         
         logging.debug("Suma total es: {}".format(self.object.getFinalSum())) # Puede ser enviar a un server, etc.
+        while self.object.nroSumasCheckeadas < self.n:
+            pass
         return self.object.getFinalSum()

@@ -13,6 +13,7 @@ class NodoI(Multiparte.Nodo):
         self.sumaTotal = None
 
         self.nroPartesEnviadas = 0
+        self.nroSumasCheckeadas = 0
     
     # Metodos suma multiparte
     def getMyPart(self, mensaje, current=None):
@@ -36,6 +37,8 @@ class NodoI(Multiparte.Nodo):
     def getFinalSum(self, current=None):
         if self.sumaTotal == None:
             raise Multiparte.NotReadyError()
+        
+        self.nroSumasCheckeadas += 1
         return self.sumaTotal
 
     def separarKey(self):
@@ -44,6 +47,7 @@ class NodoI(Multiparte.Nodo):
             partes.append(random.randint(-10,10))
         partes.append(self.key - sum(partes))
         self.nroPartesEnviadas = 0
+        self.nroSumasCheckeadas = 0
         self.partes = partes
 
     def setKey(self, key):
