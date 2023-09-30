@@ -1,4 +1,4 @@
-# Trillium multiparte
+# Trivium multiparte
 
 Primero crear un ambiente virtual e instalar dependencias
 
