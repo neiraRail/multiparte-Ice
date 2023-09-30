@@ -32,18 +32,8 @@ class TriviumNode():
         while True:
             self.secreto = self.primerXor()
             St = self.multiparte.sumar(self.secreto) % 2
-            logging.info("St es: {}".format(St))
+            yield St
             self.moverVector(St, self.secreto)
 
             if "--debug" in sys.argv:
                 input("Presiona Enter para continuar...")
-
-    
-
-if "--debug" in sys.argv:
-    logging.basicConfig(level=logging.DEBUG)
-else:
-    logging.basicConfig(level=logging.INFO)
-
-uno = TriviumNode(int(sys.argv[1]))
-uno.run()
