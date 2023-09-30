@@ -36,7 +36,6 @@ class NodoMP():
             self.server_listo = True
 
             self.ic.waitForShutdown()
-            adapter.destroy()
         except:
             print("Antes del keyboard interrupt")
             traceback.print_exc()
@@ -64,8 +63,9 @@ class NodoMP():
                         self.proxies.append(proxy)
                         conectado = True
                         logging.info("Conectado al nodo {} :D".format(i))
-                    except:
-                        time.sleep(3)     
+                    except BaseException as e:
+                        logging.debug(e)
+                        time.sleep(3)
         logging.info("---------------Conexión lista--------------------\n\n")
 
     def sumar(self, key):
@@ -87,9 +87,12 @@ class NodoMP():
                     parte = proxy.getMyPart("")
                     otrasPartes.append(parte)
                     logging.debug("que es {}".format(parte))
-                except:
+                except Multiparte.NotReadyError as e:
+                    logging.debug(e)
                     time.sleep(0.1)
-                    logging.debug("")
+                except Ice.ConnectionRefusedException as e:
+                    logging.debug(e)
+                    sys.exit()
                 else:
                     parteRecibida = True
 
@@ -112,9 +115,12 @@ class NodoMP():
                     suma = proxy.getPartialSum()
                     sumasParciales.append(suma)
                     logging.debug("que es {}".format(suma))
-                except:
+                except Multiparte.NotReadyError as e:
+                    logging.debug(e)
                     time.sleep(0.1)
-                    logging.debug("")
+                except Ice.ConnectionRefusedException as e:
+                    logging.debug(e)
+                    sys.exit()
                 else:
                     sumaRecibida = True
         self.object.borrarPartes() # Es importante borrar partes para que en la siguiente iteración no se envíe una parte anterior por accidente
@@ -133,9 +139,12 @@ class NodoMP():
                     total = proxy.getFinalSum()
                     sumasTotales.append(total)
                     logging.debug("que es {}".format(total))
-                except:
+                except Multiparte.NotReadyError as e:
+                    logging.debug(e)
                     time.sleep(0.1)
-                    logging.debug("")
+                except Ice.ConnectionRefusedException as e:
+                    logging.debug(e)
+                    sys.exit()
                 else:
                     sumaTotalRecibida = True
 

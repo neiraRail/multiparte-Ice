@@ -128,7 +128,7 @@ if 'NodoPrx' not in _M_Multiparte.__dict__:
     _M_Multiparte._t_NodoDisp = IcePy.defineClass('::Multiparte::Nodo', Nodo, (), None, ())
     Nodo._ice_type = _M_Multiparte._t_NodoDisp
 
-    Nodo._op_getMyPart = IcePy.Operation('getMyPart', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0),), (), ((), IcePy._t_int, False, 0), ())
+    Nodo._op_getMyPart = IcePy.Operation('getMyPart', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0),), (), ((), IcePy._t_int, False, 0), (_M_Multiparte._t_NotReadyError,))
     Nodo._op_getPartialSum = IcePy.Operation('getPartialSum', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_int, False, 0), (_M_Multiparte._t_NotReadyError,))
     Nodo._op_getFinalSum = IcePy.Operation('getFinalSum', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_int, False, 0), (_M_Multiparte._t_NotReadyError,))
 
