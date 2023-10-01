@@ -32,7 +32,7 @@ class NodoMP():
         try:
             self.ic = Ice.initialize()
             adapter = self.ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 1000{}".format(self.id))
-            self.object = NodoI(self.id)
+            self.object = NodoI(self.id, self.n)
             adapter.add(self.object, self.ic.stringToIdentity("Nodo_{}".format(self.id)))
             adapter.activate()
 

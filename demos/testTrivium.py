@@ -1,6 +1,10 @@
 from TriviumNode import TriviumNode
-import sys
+import argparse
 
-uno = TriviumNode(int(sys.argv[1]))
+parser = argparse.ArgumentParser()
+parser.add_argument("-id", help="Id of the node", type=int)
+args = parser.parse_args()
+
+uno = TriviumNode(args.id)
 for bit in uno.run():
     print(bit)
