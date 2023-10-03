@@ -31,7 +31,7 @@ class NodoMP():
     def _start_server(self):
         try:
             self.ic = Ice.initialize()
-            adapter = self.ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 1000{}".format(self.id))
+            adapter = self.ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 10000".format(self.id))
             self.object = NodoI(self.id, self.n)
             adapter.add(self.object, self.ic.stringToIdentity("Nodo_{}".format(self.id)))
             adapter.activate()
@@ -57,7 +57,7 @@ class NodoMP():
         for i in range(self.n):
             if i != int(self.id): 
                 logging.info("Tengo que conectarme al nodo {}".format(i))
-                base = self.ic.stringToProxy("Nodo_{}:default -p 1000{}".format(i,i))
+                base = self.ic.stringToProxy("Nodo_{}:default -p 10000 -h raspberrypi{}.local".format(i,i))
                 conectado = False
                 while not conectado:
                     try:
