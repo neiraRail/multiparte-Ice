@@ -3,8 +3,8 @@ import sys
 
 uno = TriviumNode(int(sys.argv[1]))
 
-iter = uno.run()
+stream = uno.run()
 
 while True:
-    print(next(iter))
+    print(next(stream))
     input("presiona Enter...")
