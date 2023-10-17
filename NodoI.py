@@ -7,12 +7,29 @@ class NodoI(Multiparte.Nodo):
     def __init__(self, data):
         self.data = data
 
-    def get(self, key, id):
+    def get(self, key, id, current=None):
         if key in self.data:
-            return str(self.data[key])
+            if type(self.data[key]) == list:
+                return self.data[key][id]
+            else:
+                return str(self.data[key])
         else:
             raise Multiparte.NodoError("No existe key")
     
-    def post(self, key, value, id):
+    def post(self, key, value, current=None):
         self.data[key] = value
         return True
+    
+    def postDistributed(self, key, value, id):
+        if not key in self.data:
+            self.data[key] = None
+        if type(self.data[key]) != list:
+            self.data[key] = []
+        if len(self.data[key]) <= id:
+            while len(self.data[key]) <= id:
+                self.data[key].append(None)
+                
+        self.data[key][id] = value
+
+    def delete(self, key):
+        del self.data[key]

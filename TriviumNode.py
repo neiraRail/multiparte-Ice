@@ -1,10 +1,11 @@
 from NodoMP import NodoMP
 import logging, sys, random
+from Comunicator import Comunicator
 
 class TriviumNode():
     def __init__(self, id):
         self.id = id
-        self.multiparte = NodoMP(id, 3)
+        self.multiparte = NodoMP(id, Comunicator(id))
 
         self.secreto = None
 
