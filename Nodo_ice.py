@@ -21,24 +21,24 @@ import Ice, IcePy
 _M_Multiparte = Ice.openModule('Multiparte')
 __name__ = 'Multiparte'
 
-if 'NotReadyError' not in _M_Multiparte.__dict__:
-    _M_Multiparte.NotReadyError = Ice.createTempClass()
-    class NotReadyError(Ice.UserException):
-        def __init__(self):
-            pass
+if 'NodoError' not in _M_Multiparte.__dict__:
+    _M_Multiparte.NodoError = Ice.createTempClass()
+    class NodoError(Ice.UserException):
+        def __init__(self, reason=''):
+            self.reason = reason
 
         def __str__(self):
             return IcePy.stringifyException(self)
 
         __repr__ = __str__
 
-        _ice_id = '::Multiparte::NotReadyError'
+        _ice_id = '::Multiparte::NodoError'
 
-    _M_Multiparte._t_NotReadyError = IcePy.defineException('::Multiparte::NotReadyError', NotReadyError, (), False, None, ())
-    NotReadyError._ice_type = _M_Multiparte._t_NotReadyError
+    _M_Multiparte._t_NodoError = IcePy.defineException('::Multiparte::NodoError', NodoError, (), False, None, (('reason', (), IcePy._t_string, False, 0),))
+    NodoError._ice_type = _M_Multiparte._t_NodoError
 
-    _M_Multiparte.NotReadyError = NotReadyError
-    del NotReadyError
+    _M_Multiparte.NodoError = NodoError
+    del NodoError
 
 _M_Multiparte._t_Nodo = IcePy.defineValue('::Multiparte::Nodo', Ice.Value, -1, (), False, True, None, ())
 
@@ -46,41 +46,29 @@ if 'NodoPrx' not in _M_Multiparte.__dict__:
     _M_Multiparte.NodoPrx = Ice.createTempClass()
     class NodoPrx(Ice.ObjectPrx):
 
-        def getMyPart(self, s, context=None):
-            return _M_Multiparte.Nodo._op_getMyPart.invoke(self, ((s, ), context))
+        def get(self, key, id, context=None):
+            return _M_Multiparte.Nodo._op_get.invoke(self, ((key, id), context))
 
-        def getMyPartAsync(self, s, context=None):
-            return _M_Multiparte.Nodo._op_getMyPart.invokeAsync(self, ((s, ), context))
+        def getAsync(self, key, id, context=None):
+            return _M_Multiparte.Nodo._op_get.invokeAsync(self, ((key, id), context))
 
-        def begin_getMyPart(self, s, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Multiparte.Nodo._op_getMyPart.begin(self, ((s, ), _response, _ex, _sent, context))
+        def begin_get(self, key, id, _response=None, _ex=None, _sent=None, context=None):
+            return _M_Multiparte.Nodo._op_get.begin(self, ((key, id), _response, _ex, _sent, context))
 
-        def end_getMyPart(self, _r):
-            return _M_Multiparte.Nodo._op_getMyPart.end(self, _r)
+        def end_get(self, _r):
+            return _M_Multiparte.Nodo._op_get.end(self, _r)
 
-        def getPartialSum(self, context=None):
-            return _M_Multiparte.Nodo._op_getPartialSum.invoke(self, ((), context))
+        def post(self, key, value, id, context=None):
+            return _M_Multiparte.Nodo._op_post.invoke(self, ((key, value, id), context))
 
-        def getPartialSumAsync(self, context=None):
-            return _M_Multiparte.Nodo._op_getPartialSum.invokeAsync(self, ((), context))
+        def postAsync(self, key, value, id, context=None):
+            return _M_Multiparte.Nodo._op_post.invokeAsync(self, ((key, value, id), context))
 
-        def begin_getPartialSum(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Multiparte.Nodo._op_getPartialSum.begin(self, ((), _response, _ex, _sent, context))
+        def begin_post(self, key, value, id, _response=None, _ex=None, _sent=None, context=None):
+            return _M_Multiparte.Nodo._op_post.begin(self, ((key, value, id), _response, _ex, _sent, context))
 
-        def end_getPartialSum(self, _r):
-            return _M_Multiparte.Nodo._op_getPartialSum.end(self, _r)
-
-        def getFinalSum(self, context=None):
-            return _M_Multiparte.Nodo._op_getFinalSum.invoke(self, ((), context))
-
-        def getFinalSumAsync(self, context=None):
-            return _M_Multiparte.Nodo._op_getFinalSum.invokeAsync(self, ((), context))
-
-        def begin_getFinalSum(self, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Multiparte.Nodo._op_getFinalSum.begin(self, ((), _response, _ex, _sent, context))
-
-        def end_getFinalSum(self, _r):
-            return _M_Multiparte.Nodo._op_getFinalSum.end(self, _r)
+        def end_post(self, _r):
+            return _M_Multiparte.Nodo._op_post.end(self, _r)
 
         @staticmethod
         def checkedCast(proxy, facetOrContext=None, context=None):
@@ -111,14 +99,11 @@ if 'NodoPrx' not in _M_Multiparte.__dict__:
         def ice_staticId():
             return '::Multiparte::Nodo'
 
-        def getMyPart(self, s, current=None):
-            raise NotImplementedError("servant method 'getMyPart' not implemented")
+        def get(self, key, id, current=None):
+            raise NotImplementedError("servant method 'get' not implemented")
 
-        def getPartialSum(self, current=None):
-            raise NotImplementedError("servant method 'getPartialSum' not implemented")
-
-        def getFinalSum(self, current=None):
-            raise NotImplementedError("servant method 'getFinalSum' not implemented")
+        def post(self, key, value, id, current=None):
+            raise NotImplementedError("servant method 'post' not implemented")
 
         def __str__(self):
             return IcePy.stringify(self, _M_Multiparte._t_NodoDisp)
@@ -128,9 +113,8 @@ if 'NodoPrx' not in _M_Multiparte.__dict__:
     _M_Multiparte._t_NodoDisp = IcePy.defineClass('::Multiparte::Nodo', Nodo, (), None, ())
     Nodo._ice_type = _M_Multiparte._t_NodoDisp
 
-    Nodo._op_getMyPart = IcePy.Operation('getMyPart', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0),), (), ((), IcePy._t_int, False, 0), (_M_Multiparte._t_NotReadyError,))
-    Nodo._op_getPartialSum = IcePy.Operation('getPartialSum', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_int, False, 0), (_M_Multiparte._t_NotReadyError,))
-    Nodo._op_getFinalSum = IcePy.Operation('getFinalSum', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (), (), ((), IcePy._t_int, False, 0), (_M_Multiparte._t_NotReadyError,))
+    Nodo._op_get = IcePy.Operation('get', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_int, False, 0)), (), ((), IcePy._t_string, False, 0), (_M_Multiparte._t_NodoError,))
+    Nodo._op_post = IcePy.Operation('post', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_int, False, 0)), (), ((), IcePy._t_bool, False, 0), (_M_Multiparte._t_NodoError,))
 
     _M_Multiparte.Nodo = Nodo
     del Nodo

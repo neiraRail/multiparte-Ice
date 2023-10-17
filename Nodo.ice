@@ -1,10 +1,11 @@
 module Multiparte {
-    exception NotReadyError {};
+    exception NodoError {
+        string reason;
+    };
 
     interface Nodo
     {
-        int getMyPart(string s) throws NotReadyError; //Metodo para solicitar la parte que le corresponda al solicitante
-        int getPartialSum() throws NotReadyError; //Metodo para solicitar la suma parcial de este nodo
-        int getFinalSum() throws NotReadyError; // Metodo para solicitar la suma final
+        string get(string key, int id) throws NodoError; //Metodo para solicitar la parte que le corresponda al solicitante
+        bool post(string key, string value, int id) throws NodoError;
     }
 }
