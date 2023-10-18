@@ -77,13 +77,18 @@ class IceCommsHandler(CommsHandler):
             return int(self.proxies[toId].get(key, fromId))
         except ZIceComms.NodoError as e:
             raise TryAgainException()
-
+    
+    def post(self, fromId, key, payload, toId):
+        return self.proxies[toId].post(key, payload, fromId)
     
     def addDataToId(self, key, value, toId):
-        self.object.postDistributed(key, value, toId)
+        self.object.addDistributed(key, value, toId)
     
     def addDataGeneral(self, key, value):
-        self.object.post(key, value)
+        self.object.add(key, value)
 
     def deleteData(self, key):
         self.object.delete(key)
+
+    def registerHook(self, key, function):
+        self.object.register(key, function)

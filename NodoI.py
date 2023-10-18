@@ -6,6 +6,7 @@ class NodoI(ZIceComms.Nodo):
     '''Contiene un objeto data que puede ser accedido por el método get'''
     def __init__(self, data):
         self.data = data
+        self.hooks = {}
 
     def get(self, key, id, current=None):
         if key in self.data:
@@ -16,11 +17,11 @@ class NodoI(ZIceComms.Nodo):
         else:
             raise ZIceComms.NodoError("No existe key")
     
-    def post(self, key, value, current=None):
+    def add(self, key, value):
         self.data[key] = value
         return True
     
-    def postDistributed(self, key, value, id):
+    def addDistributed(self, key, value, id):
         if not key in self.data:    
             self.data[key] = None
         if type(self.data[key]) != list:
@@ -34,3 +35,13 @@ class NodoI(ZIceComms.Nodo):
     def delete(self, key):
         if key in self.data:
             del self.data[key]
+
+    def register(self, key, function):
+        self.hooks[key] = function
+    
+    def post(self, key, payload, id, current=None):
+        if key in self.hooks:
+            self.hooks[key](payload, id)
+            return True
+        else: 
+            return False

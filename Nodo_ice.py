@@ -58,14 +58,14 @@ if 'NodoPrx' not in _M_ZIceComms.__dict__:
         def end_get(self, _r):
             return _M_ZIceComms.Nodo._op_get.end(self, _r)
 
-        def post(self, key, value, id, context=None):
-            return _M_ZIceComms.Nodo._op_post.invoke(self, ((key, value, id), context))
+        def post(self, key, payload, id, context=None):
+            return _M_ZIceComms.Nodo._op_post.invoke(self, ((key, payload, id), context))
 
-        def postAsync(self, key, value, id, context=None):
-            return _M_ZIceComms.Nodo._op_post.invokeAsync(self, ((key, value, id), context))
+        def postAsync(self, key, payload, id, context=None):
+            return _M_ZIceComms.Nodo._op_post.invokeAsync(self, ((key, payload, id), context))
 
-        def begin_post(self, key, value, id, _response=None, _ex=None, _sent=None, context=None):
-            return _M_ZIceComms.Nodo._op_post.begin(self, ((key, value, id), _response, _ex, _sent, context))
+        def begin_post(self, key, payload, id, _response=None, _ex=None, _sent=None, context=None):
+            return _M_ZIceComms.Nodo._op_post.begin(self, ((key, payload, id), _response, _ex, _sent, context))
 
         def end_post(self, _r):
             return _M_ZIceComms.Nodo._op_post.end(self, _r)
@@ -102,7 +102,7 @@ if 'NodoPrx' not in _M_ZIceComms.__dict__:
         def get(self, key, id, current=None):
             raise NotImplementedError("servant method 'get' not implemented")
 
-        def post(self, key, value, id, current=None):
+        def post(self, key, payload, id, current=None):
             raise NotImplementedError("servant method 'post' not implemented")
 
         def __str__(self):
