@@ -1,10 +1,13 @@
+import threading, logging, time, traceback, Ice
+from src.comms.CommsHandler import CommsHandler, TryAgainException, FatalException
+import ZIceComms
 from NodoI import NodoI
-import threading, logging, time, traceback
-import Multiparte, Ice
 
-class Comunicator:
+
+
+class IceCommsHandler(CommsHandler):
     def __init__(self, id, n=3):
-        self.id = id
+        super().__init__(id)
         self.n = n
         self.object = None
         self.server_listo = False
@@ -37,6 +40,7 @@ class Comunicator:
         except:
             print("Antes del keyboard interrupt")
             traceback.print_exc()
+            raise FatalException("Error al iniciar server")
         
         if self.ic:
             try:
@@ -54,7 +58,7 @@ class Comunicator:
                 while not conectado:
                     try:
                         logging.debug("Intento")
-                        proxy = Multiparte.NodoPrx.checkedCast(base)
+                        proxy = ZIceComms.NodoPrx.checkedCast(base)
                         if not proxy:
                             raise RuntimeError("Invalid proxy")
                         self.proxies.append(proxy)
@@ -63,11 +67,17 @@ class Comunicator:
                     except BaseException as e:
                         logging.debug(e)
                         time.sleep(3)
+            else:
+                self.proxies.append(self.object)
         logging.info("---------------Conexión lista--------------------\n\n")
     
 
     def get(self, fromId, key, toId):
-        return self.proxies[toId].get(key, fromId)
+        try:
+            return int(self.proxies[toId].get(key, fromId))
+        except ZIceComms.NodoError as e:
+            raise TryAgainException()
+
     
     def addDataToId(self, key, value, toId):
         self.object.postDistributed(key, value, toId)

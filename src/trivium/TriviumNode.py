@@ -1,12 +1,10 @@
-from NodoMP import NodoMP
-import logging, sys, random
-from Comunicator import Comunicator
+import sys, random
+from src.sum.SumHandler import SumHandler
 
 class TriviumNode():
-    def __init__(self, id):
+    def __init__(self, id, sumHandler: SumHandler):
         self.id = id
-        self.multiparte = NodoMP(id, Comunicator(id))
-
+        self.sumHandler = sumHandler
         self.secreto = None
 
         self.vector = self.generarVector(id)
@@ -32,7 +30,7 @@ class TriviumNode():
     def run(self):
         while True:
             self.secreto = self.primerXor()
-            St = self.multiparte.sumar(self.secreto) % 2
+            St = self.sumHandler.sumar(self.secreto) % 2
             yield St
             self.moverVector(St, self.secreto)
 

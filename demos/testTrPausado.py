@@ -1,7 +1,11 @@
-from TriviumNode import TriviumNode
+from src.trivium.TriviumNode import TriviumNode
+from src.sum.MultipartSum import MultipartSum
+from src.comms.IceCommsHandler import IceCommsHandler
 import sys
 
-uno = TriviumNode(int(sys.argv[1]))
+comms = IceCommsHandler(int(sys.argv[1]))
+suma = MultipartSum(int(sys.argv[1]), comms)
+uno = TriviumNode(int(sys.argv[1]), suma)
 
 stream = uno.run()
 

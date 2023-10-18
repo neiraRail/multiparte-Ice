@@ -17,12 +17,12 @@
 from sys import version_info as _version_info_
 import Ice, IcePy
 
-# Start of module Multiparte
-_M_Multiparte = Ice.openModule('Multiparte')
-__name__ = 'Multiparte'
+# Start of module ZIceComms
+_M_ZIceComms = Ice.openModule('ZIceComms')
+__name__ = 'ZIceComms'
 
-if 'NodoError' not in _M_Multiparte.__dict__:
-    _M_Multiparte.NodoError = Ice.createTempClass()
+if 'NodoError' not in _M_ZIceComms.__dict__:
+    _M_ZIceComms.NodoError = Ice.createTempClass()
     class NodoError(Ice.UserException):
         def __init__(self, reason=''):
             self.reason = reason
@@ -32,72 +32,72 @@ if 'NodoError' not in _M_Multiparte.__dict__:
 
         __repr__ = __str__
 
-        _ice_id = '::Multiparte::NodoError'
+        _ice_id = '::ZIceComms::NodoError'
 
-    _M_Multiparte._t_NodoError = IcePy.defineException('::Multiparte::NodoError', NodoError, (), False, None, (('reason', (), IcePy._t_string, False, 0),))
-    NodoError._ice_type = _M_Multiparte._t_NodoError
+    _M_ZIceComms._t_NodoError = IcePy.defineException('::ZIceComms::NodoError', NodoError, (), False, None, (('reason', (), IcePy._t_string, False, 0),))
+    NodoError._ice_type = _M_ZIceComms._t_NodoError
 
-    _M_Multiparte.NodoError = NodoError
+    _M_ZIceComms.NodoError = NodoError
     del NodoError
 
-_M_Multiparte._t_Nodo = IcePy.defineValue('::Multiparte::Nodo', Ice.Value, -1, (), False, True, None, ())
+_M_ZIceComms._t_Nodo = IcePy.defineValue('::ZIceComms::Nodo', Ice.Value, -1, (), False, True, None, ())
 
-if 'NodoPrx' not in _M_Multiparte.__dict__:
-    _M_Multiparte.NodoPrx = Ice.createTempClass()
+if 'NodoPrx' not in _M_ZIceComms.__dict__:
+    _M_ZIceComms.NodoPrx = Ice.createTempClass()
     class NodoPrx(Ice.ObjectPrx):
 
         def get(self, key, id, context=None):
-            return _M_Multiparte.Nodo._op_get.invoke(self, ((key, id), context))
+            return _M_ZIceComms.Nodo._op_get.invoke(self, ((key, id), context))
 
         def getAsync(self, key, id, context=None):
-            return _M_Multiparte.Nodo._op_get.invokeAsync(self, ((key, id), context))
+            return _M_ZIceComms.Nodo._op_get.invokeAsync(self, ((key, id), context))
 
         def begin_get(self, key, id, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Multiparte.Nodo._op_get.begin(self, ((key, id), _response, _ex, _sent, context))
+            return _M_ZIceComms.Nodo._op_get.begin(self, ((key, id), _response, _ex, _sent, context))
 
         def end_get(self, _r):
-            return _M_Multiparte.Nodo._op_get.end(self, _r)
+            return _M_ZIceComms.Nodo._op_get.end(self, _r)
 
         def post(self, key, value, id, context=None):
-            return _M_Multiparte.Nodo._op_post.invoke(self, ((key, value, id), context))
+            return _M_ZIceComms.Nodo._op_post.invoke(self, ((key, value, id), context))
 
         def postAsync(self, key, value, id, context=None):
-            return _M_Multiparte.Nodo._op_post.invokeAsync(self, ((key, value, id), context))
+            return _M_ZIceComms.Nodo._op_post.invokeAsync(self, ((key, value, id), context))
 
         def begin_post(self, key, value, id, _response=None, _ex=None, _sent=None, context=None):
-            return _M_Multiparte.Nodo._op_post.begin(self, ((key, value, id), _response, _ex, _sent, context))
+            return _M_ZIceComms.Nodo._op_post.begin(self, ((key, value, id), _response, _ex, _sent, context))
 
         def end_post(self, _r):
-            return _M_Multiparte.Nodo._op_post.end(self, _r)
+            return _M_ZIceComms.Nodo._op_post.end(self, _r)
 
         @staticmethod
         def checkedCast(proxy, facetOrContext=None, context=None):
-            return _M_Multiparte.NodoPrx.ice_checkedCast(proxy, '::Multiparte::Nodo', facetOrContext, context)
+            return _M_ZIceComms.NodoPrx.ice_checkedCast(proxy, '::ZIceComms::Nodo', facetOrContext, context)
 
         @staticmethod
         def uncheckedCast(proxy, facet=None):
-            return _M_Multiparte.NodoPrx.ice_uncheckedCast(proxy, facet)
+            return _M_ZIceComms.NodoPrx.ice_uncheckedCast(proxy, facet)
 
         @staticmethod
         def ice_staticId():
-            return '::Multiparte::Nodo'
-    _M_Multiparte._t_NodoPrx = IcePy.defineProxy('::Multiparte::Nodo', NodoPrx)
+            return '::ZIceComms::Nodo'
+    _M_ZIceComms._t_NodoPrx = IcePy.defineProxy('::ZIceComms::Nodo', NodoPrx)
 
-    _M_Multiparte.NodoPrx = NodoPrx
+    _M_ZIceComms.NodoPrx = NodoPrx
     del NodoPrx
 
-    _M_Multiparte.Nodo = Ice.createTempClass()
+    _M_ZIceComms.Nodo = Ice.createTempClass()
     class Nodo(Ice.Object):
 
         def ice_ids(self, current=None):
-            return ('::Ice::Object', '::Multiparte::Nodo')
+            return ('::Ice::Object', '::ZIceComms::Nodo')
 
         def ice_id(self, current=None):
-            return '::Multiparte::Nodo'
+            return '::ZIceComms::Nodo'
 
         @staticmethod
         def ice_staticId():
-            return '::Multiparte::Nodo'
+            return '::ZIceComms::Nodo'
 
         def get(self, key, id, current=None):
             raise NotImplementedError("servant method 'get' not implemented")
@@ -106,17 +106,17 @@ if 'NodoPrx' not in _M_Multiparte.__dict__:
             raise NotImplementedError("servant method 'post' not implemented")
 
         def __str__(self):
-            return IcePy.stringify(self, _M_Multiparte._t_NodoDisp)
+            return IcePy.stringify(self, _M_ZIceComms._t_NodoDisp)
 
         __repr__ = __str__
 
-    _M_Multiparte._t_NodoDisp = IcePy.defineClass('::Multiparte::Nodo', Nodo, (), None, ())
-    Nodo._ice_type = _M_Multiparte._t_NodoDisp
+    _M_ZIceComms._t_NodoDisp = IcePy.defineClass('::ZIceComms::Nodo', Nodo, (), None, ())
+    Nodo._ice_type = _M_ZIceComms._t_NodoDisp
 
-    Nodo._op_get = IcePy.Operation('get', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_int, False, 0)), (), ((), IcePy._t_string, False, 0), (_M_Multiparte._t_NodoError,))
-    Nodo._op_post = IcePy.Operation('post', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_int, False, 0)), (), ((), IcePy._t_bool, False, 0), (_M_Multiparte._t_NodoError,))
+    Nodo._op_get = IcePy.Operation('get', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_int, False, 0)), (), ((), IcePy._t_string, False, 0), (_M_ZIceComms._t_NodoError,))
+    Nodo._op_post = IcePy.Operation('post', Ice.OperationMode.Normal, Ice.OperationMode.Normal, False, None, (), (((), IcePy._t_string, False, 0), ((), IcePy._t_string, False, 0), ((), IcePy._t_int, False, 0)), (), ((), IcePy._t_bool, False, 0), (_M_ZIceComms._t_NodoError,))
 
-    _M_Multiparte.Nodo = Nodo
+    _M_ZIceComms.Nodo = Nodo
     del Nodo
 
-# End of module Multiparte
+# End of module ZIceComms

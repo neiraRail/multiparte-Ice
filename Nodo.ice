@@ -1,4 +1,4 @@
-module Multiparte {
+module ZIceComms {
     exception NodoError {
         string reason;
     };

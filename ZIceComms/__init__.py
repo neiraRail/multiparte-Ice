@@ -2,7 +2,7 @@
 #
 
 import Ice
-Ice.updateModule("Multiparte")
+Ice.updateModule("ZIceComms")
 
 # Modules:
 import Nodo_ice
