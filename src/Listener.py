@@ -1,6 +1,7 @@
 from src.trivium.TriviumNode import TriviumNode
 from src.comms.IceCommsHandler import IceCommsHandler
 from src.sum.MultipartSum import MultipartSum
+import src.binary_utils as utils
 
 
 class Listener:
@@ -15,6 +16,7 @@ class Listener:
         self.listeningTo = None
         self.bit = next(self.randomStream)
         self.comms.registerHook("msgu", self.recieveMessage)
+        self.m = ""
         while True:
             self.bit = next(self.randomStream)
 
@@ -28,10 +30,13 @@ class Listener:
         if id != self.listeningTo:
             raise Exception("Not my sender")
         value = int(payload[0]) ^ self.bit
-        print("{} ^ {} = {}".format(self.bit, int(payload[0]), value))
+        self.m += str(value)
+        # print("{} ^ {} = {}".format(self.bit, int(payload[0]), value))
         if payload[1] == 0:
             # TODO: Desconectar hook
             self.listeningTo = None
+            print(utils.binary_to_string(self.m))
+            self.m = ""
             pass
 
 import sys
