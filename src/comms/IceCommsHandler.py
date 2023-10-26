@@ -27,7 +27,7 @@ class IceCommsHandler(CommsHandler):
     def _start_server(self):
         try:
             self.ic = Ice.initialize()
-            adapter = self.ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 10000}".format(self.id))
+            adapter = self.ic.createObjectAdapterWithEndpoints("NodoAdapter", "default -p 10000".format(self.id))
             self.object = NodoI({})
             adapter.add(self.object, self.ic.stringToIdentity("Nodo_{}".format(self.id)))
             adapter.activate()
