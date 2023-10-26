@@ -4,12 +4,11 @@ from src.comms.IceCommsHandler import IceCommsHandler
 from src.sum.MultipartSum import MultipartSum, TryAgainException
 
 class Sender:
-    def __init__(self, id):
+    def __init__(self, id, comms, generator):
         self.id = id
-        self.comms = IceCommsHandler(id, 3)
+        self.comms = comms
         
-        multiparte = MultipartSum(id, self.comms)
-        trivium = TriviumNode(id, multiparte)
+        trivium = generator
 
         self.randomStream = trivium.run()
         self.bit = next(self.randomStream)
@@ -39,14 +38,3 @@ class Sender:
                 self.comms.post(self.id, "data", str(xor)+"0", toId)
                 
             self.bit = next(self.randomStream)
-
-
-
-sender = Sender(0)
-message = input("Numero binario para 1: ")
-sender.send(message, 1)
-message = input("Numero binario para 2: ")
-sender.send(message, 2)
-while True:
-    pass
-
