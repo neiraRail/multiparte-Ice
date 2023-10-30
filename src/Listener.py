@@ -32,7 +32,7 @@ class Listener:
         value = int(payload[0]) ^ self.bit
         self.m += str(value)
         # print("{} ^ {} = {}".format(self.bit, int(payload[0]), value))
-        if payload[1] == 0:
+        if payload[1] == "0":
             # TODO: Desconectar hook
             self.listeningTo = None
             print(utils.binary_to_string(self.m))
