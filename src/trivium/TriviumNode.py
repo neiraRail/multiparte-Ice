@@ -1,4 +1,4 @@
-import sys, random
+import sys, random, logging
 from src.sum.SumHandler import SumHandler
 
 class TriviumNode():
@@ -31,6 +31,7 @@ class TriviumNode():
         while True:
             self.secreto = self.primerXor()
             St = self.sumHandler.sumar(self.secreto) % 2
+            logging.debug("GEN: Voy a soltar el bit: {}".format(St))
             yield St
             self.moverVector(St, self.secreto)
 

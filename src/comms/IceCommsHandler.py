@@ -21,7 +21,7 @@ class IceCommsHandler(CommsHandler):
 
         while not self.server_listo:
             time.sleep(1)
-        logging.info("Servidor listo")     
+        logging.info("COMMS: Servidor listo")     
 
 
     def _start_server(self):
@@ -52,18 +52,18 @@ class IceCommsHandler(CommsHandler):
     def conectarme(self):
         for i in range(self.n):
             if i != int(self.id): 
-                logging.info("Tengo que conectarme al nodo {}".format(i))
+                logging.info("COMMS: Tengo que conectarme al nodo {}".format(i))
                 base = self.ic.stringToProxy("Nodo_{}:default -p 10000 -h raspberrypi{}.local".format(i,i))
                 conectado = False
                 while not conectado:
                     try:
-                        logging.debug("Intento")
+                        logging.debug("COMMS: Intento")
                         proxy = ZIceComms.NodoPrx.checkedCast(base)
                         if not proxy:
                             raise RuntimeError("Invalid proxy")
                         self.proxies.append(proxy)
                         conectado = True
-                        logging.info("Conectado al nodo {} :D".format(i))
+                        logging.info("COMMS: Conectado al nodo {} :D".format(i))
                     except BaseException as e:
                         logging.debug(e)
                         time.sleep(3)
@@ -73,12 +73,14 @@ class IceCommsHandler(CommsHandler):
     
 
     def get(self, fromId, key, toId):
+        logging.info("COMMS: {} me solicitó {} :D".format(fromId, key))
         try:
             return int(self.proxies[toId].get(key, fromId))
         except ZIceComms.NodoError as e:
             raise TryAgainException()
     
     def post(self, fromId, key, payload, toId):
+        logging.info("COMMS: {} llamó a post en {} con el payload: {} :D".format(fromId, key, payload))
         return self.proxies[toId].post(key, payload, fromId)
     
     def addDataToId(self, key, value, toId):

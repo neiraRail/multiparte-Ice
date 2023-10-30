@@ -51,7 +51,7 @@ class MultipartSum:
     def sumar(self, key):
         self.key = key
         self.separarKey()
-        logging.debug("Mi número secreto (s) es {}".format(self.key))
+        logging.debug("SUM: Mi número secreto (s) es {}".format(self.key))
 
         # Pide todas las partes incluyendo la propia.
         otrasPartes = []
@@ -60,6 +60,7 @@ class MultipartSum:
             while not parteRecibida:
                 try:
                     parte = self.comm.get(self.id, "parte", i)
+                    logging.debug("SUM: recibi {} de {}".format(parte,i))
                     otrasPartes.append(parte)
                 except TryAgainException as e:
                     logging.debug(e)
@@ -70,7 +71,7 @@ class MultipartSum:
         
         self.borrarSumaFinal()  # Importante borrar para no enviar por accidente
         self.setSumaParcial(sum(otrasPartes))
-        logging.debug("Las partes que he recolectado son: {}".format(otrasPartes))
+        logging.debug("SUM: Las partes que he recolectado son: {}".format(otrasPartes))
 
         # Suma las partes de otros y genera su suma parcial
         sumasParciales = []
@@ -91,7 +92,7 @@ class MultipartSum:
 
         self.borrarPartes()  # Es importante borrar partes para que en la siguiente iteración no se envíe una parte anterior por accidente
         self.setSumaFinal(sum(sumasParciales))
-        logging.debug("Las sumas que he recolectado son: {}".format(sumasParciales))
+        logging.debug("SUM: Las sumas que he recolectado son: {}".format(sumasParciales))
         
         sumasTotales = []
         for i in range(self.n):
