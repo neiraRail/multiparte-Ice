@@ -19,6 +19,11 @@ class MultipartSum:
         self.nroPartesEnviadas = 0
         self.nroSumasCheckeadas = 0
 
+        self.comm.registerHook("total", self.aumentarNroSumasCheckeadas)
+    
+    def aumentarNroSumasCheckeadas(self, payload, id):
+        self.nroSumasCheckeadas += 1
+
     def separarKey(self):
         partes = []
         for i in range(self.n):
@@ -101,6 +106,7 @@ class MultipartSum:
                 try:
                     total = self.comm.get(self.id, "total", i)
                     sumasTotales.append(total)
+                    self.comm.post(self.id, "total", None, i)
                 except TryAgainException as e:
                     logging.debug(e)
                     # time.sleep(0.1)
@@ -115,6 +121,6 @@ class MultipartSum:
             x == sumasTotales[0] for x in sumasTotales
         )  # Si una de las sumas totales no coincide se detiene la ejecución
 
-        # while self.nroSumasCheckeadas < self.n:
-        #     pass
+        while self.nroSumasCheckeadas < self.n:
+             pass
         return self.comm.get(self.id, "total", self.id)

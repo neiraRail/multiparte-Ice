@@ -12,6 +12,12 @@ class CommsHandler:
     def addDataGeneral(self, key, value):
         pass
 
+    def post(self, fromId, key, payload, toId):
+        pass
+
+    def registerHook(self, key, function):
+        pass
+
     def deleteData(self, key):
         pass
 

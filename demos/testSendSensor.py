@@ -18,3 +18,5 @@ while True:
     binary = utils.string_to_binary(message)
     sender.send(binary, 2)
     time.sleep(5)
+    while True:
+        pass
